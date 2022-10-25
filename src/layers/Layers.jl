@@ -11,6 +11,9 @@ using MLUtils
 using PartialFunctions
 using Random
 
+using TensorCast
+using NeuralAttentionlib
+
 import Flux.testmode!
 
 include("../utilities.jl")
