@@ -109,13 +109,14 @@ See also [`Metalhead.unet`](@ref).
 """
 struct UNet
     layers::Any
+    inchannels::Integer
 end
 @functor UNet
 
 function UNet(imsize::Dims{2} = (256, 256), inchannels::Integer = 3, outplanes::Integer = 3,
-              encoder_backbone = Metalhead.backbone(DenseNet(121)); pretrain::Bool = false)
+              encoder_backbone = Metalhead.backbone(DenseNet(121, inchannels=inchannels)); pretrain::Bool = false)
     layers = unet(encoder_backbone, (imsize..., inchannels, 1), outplanes)
-    model = UNet(layers)
+    model = UNet(layers, inchannels)
     if pretrain
         artifact_name = "UNet"
         loadpretrain!(model, artifact_name)
